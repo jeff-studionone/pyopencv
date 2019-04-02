@@ -1,0 +1,25 @@
+version: '3.7'
+
+networks:
+  pythonnlpnet:
+    external: true
+    name: localdev
+services:
+  python:
+    # privileged: true
+    build:
+      context: .
+    networks:
+      - pythonnlpnet
+    container_name: pyopencv
+    restart: on-failure
+    environment:
+      VIRTUAL_HOST: pyopencv.docker
+    volumes:
+      - ./code:/var/www/html
+      - ./video/video0:/dev/video0
+    # devices:
+    #   - ./video/video0:/dev/video0
+    ports:
+      - "8000:8000"
+    command: tail -f > /dev/null
